@@ -23,6 +23,17 @@ async fn main() -> anyhow::Result<()> {
     let config = Config::from_env();
 
     // ── Database ─────────────────────────────────────────────────────────────
+       // Auto-create the SQLite file if it does not exist
+    let db_file = config.database_url
+        .trim_start_matches("sqlite://")
+        .split('?')
+        .next()
+        .unwrap_or("task_api.db");
+    if !std::path::Path::new(db_file).exists() {
+        std::fs::File::create(db_file).expect("Could not create SQLite file");
+        println!("📁 Created database file: {db_file}");
+    }
+
     let pool = SqlitePoolOptions::new()
         .max_connections(5)
         .connect(&config.database_url)
