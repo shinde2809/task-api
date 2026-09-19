@@ -1,55 +1,41 @@
-Delta compression using up to 10 threads
-Compressing objects: 100% (4/4), done.
-Writing objects: 100% (4/4), 629 bytes | 629.00 KiB/s, done.
-Total 4 (delta 3), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
-To https://github.com/shinde2809/task-api.git
-   5fa0cb6..bd7ed82  main -> main
-toxic@Shubhams-MacBook-Air task-api % git status
-On branch main
-Your branch is up to date with 'origin/main'.
-
-nothing to commit, working tree clean
-toxic@Shubhams-MacBook-Air task-api % clear
 toxic@Shubhams-MacBook-Air task-api % >....                                                                                              
-echo "Bond challenge: $BOND_CHALLENGE" && \
+","password":"Bond007!"}' | jq -r '.login_challenge_id') && \
 BOND_CODE=$(curl -s http://localhost:8080/dev/email-logs/latest | jq -r '.body' | grep -oE '[0-9]{6}' | head -1) && \
 echo "Bond OTP: $BOND_CODE" && \
 BOND_TOKEN=$(curl -s -X POST http://localhost:8080/auth/verify-2fa -H "Content-Type: application/json" -d "{\"login_challenge_id\":\"$BOND_CHALLENGE\",\"code\":\"$BOND_CODE\"}" | jq -r '.access_token') && \
 echo "Bond token: ${BOND_TOKEN:0:40}..." && \
 echo "--- Bond creates task (expect 403) ---" && \
 curl -s -X POST http://localhost:8080/tasks -H "Authorization: Bearer $BOND_TOKEN" -H "Content-Type: application/json" -d '{"title":"Bond secret task","priority":"high"}' | jq && \
-echo "--- view-my-tasks call 1 (expect cache.hit: false) ---" && \
+echo "--- view-my-tasks call 1 (expect cache.hit: false, 3 tasks) ---" && \
 curl -s http://localhost:8080/tasks/view-my-tasks -H "Authorization: Bearer $BOND_TOKEN" | jq && \
-echo "--- view-my-tasks call 2 (expect cache.hit: true) ---" && \
+echo "--- view-my-tasks call 2 (expect cache.hit: true, 3 tasks) ---" && \
 curl -s http://localhost:8080/tasks/view-my-tasks -H "Authorization: Bearer $BOND_TOKEN" | jq
 {
   "message": "Seed complete. Users created (or already existed).",
   "admin_email": "admin@example.com",
   "staff_email": "jamesbond@example.com"
 }
-Challenge: bb6bc567-06d6-4e1a-a81e-24b3cbead792
-OTP: 859307
+Challenge: 2d7fce12-63b4-4808-b357-4c854bd79813
+OTP: 207075
 Admin token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ...
-Tasks: 699fa02c-059d-4282-99fb-9d9516479c76 f3c850e9-7986-42c6-9cf6-834549496956 5b8ce080-a49d-4cfb-99c1-6b90f17dcda0 03b66cb9-7b4b-4255-9685-9d6822cf6491 8daa43c4-58d8-441b-b3e4-78cf55f82eaa
+Tasks: 8b208052-0e48-4c49-9d61-8ad67e6ef229 48b92353-be68-42e5-9350-c4a18873e36f 2b13a5d4-93df-4cd1-95d9-4675b8d4e5de 8e7bec6e-80d9-4b03-89f6-e61602210a7f c862d0eb-01b8-4de5-bfbd-c651b227a468
 {
   "assigned_to": "jamesbond@example.com",
   "message": "3 task(s) assigned to jamesbond@example.com",
   "task_ids": [
-    "699fa02c-059d-4282-99fb-9d9516479c76",
-    "f3c850e9-7986-42c6-9cf6-834549496956",
-    "5b8ce080-a49d-4cfb-99c1-6b90f17dcda0"
+    "8b208052-0e48-4c49-9d61-8ad67e6ef229",
+    "48b92353-be68-42e5-9350-c4a18873e36f",
+    "2b13a5d4-93df-4cd1-95d9-4675b8d4e5de"
   ]
 }
-Bond challenge: 35b7647b-06f2-49e0-a6dc-945bba319c41
-Bond OTP: 420474
+Bond OTP: 172529
 Bond token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ...
 --- Bond creates task (expect 403) ---
 {
   "error": "forbidden",
   "message": "Forbidden: Only admins can perform this action"
 }
---- view-my-tasks call 1 (expect cache.hit: false) ---
+--- view-my-tasks call 1 (expect cache.hit: false, 3 tasks) ---
 {
   "user": {
     "email": "jamesbond@example.com",
@@ -57,42 +43,21 @@ Bond token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ...
   },
   "tasks": [
     {
-      "id": "b6a4b2c4-1ad3-4810-8d95-6c76a69c9fe9",
+      "id": "8b208052-0e48-4c49-9d61-8ad67e6ef229",
       "title": "Task Alpha",
       "status": "todo",
       "priority": "high",
       "assigned_to": "jamesbond@example.com"
     },
     {
-      "id": "3468d5fc-15ef-42fb-a1f5-c73c9fca51d9",
+      "id": "48b92353-be68-42e5-9350-c4a18873e36f",
       "title": "Task Beta",
       "status": "todo",
       "priority": "high",
       "assigned_to": "jamesbond@example.com"
     },
     {
-      "id": "81bc6df0-a7a3-425f-8767-20fe803a23a8",
-      "title": "Task Gamma",
-      "status": "todo",
-      "priority": "medium",
-      "assigned_to": "jamesbond@example.com"
-    },
-    {
-      "id": "699fa02c-059d-4282-99fb-9d9516479c76",
-      "title": "Task Alpha",
-      "status": "todo",
-      "priority": "high",
-      "assigned_to": "jamesbond@example.com"
-    },
-    {
-      "id": "f3c850e9-7986-42c6-9cf6-834549496956",
-      "title": "Task Beta",
-      "status": "todo",
-      "priority": "high",
-      "assigned_to": "jamesbond@example.com"
-    },
-    {
-      "id": "5b8ce080-a49d-4cfb-99c1-6b90f17dcda0",
+      "id": "2b13a5d4-93df-4cd1-95d9-4675b8d4e5de",
       "title": "Task Gamma",
       "status": "todo",
       "priority": "medium",
@@ -100,13 +65,13 @@ Bond token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ...
     }
   ],
   "summary": {
-    "total_assigned_tasks": 6
+    "total_assigned_tasks": 3
   },
   "cache": {
     "hit": false
   }
 }
---- view-my-tasks call 2 (expect cache.hit: true) ---
+--- view-my-tasks call 2 (expect cache.hit: true, 3 tasks) ---
 {
   "user": {
     "email": "jamesbond@example.com",
@@ -114,42 +79,21 @@ Bond token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ...
   },
   "tasks": [
     {
-      "id": "b6a4b2c4-1ad3-4810-8d95-6c76a69c9fe9",
+      "id": "8b208052-0e48-4c49-9d61-8ad67e6ef229",
       "title": "Task Alpha",
       "status": "todo",
       "priority": "high",
       "assigned_to": "jamesbond@example.com"
     },
     {
-      "id": "3468d5fc-15ef-42fb-a1f5-c73c9fca51d9",
+      "id": "48b92353-be68-42e5-9350-c4a18873e36f",
       "title": "Task Beta",
       "status": "todo",
       "priority": "high",
       "assigned_to": "jamesbond@example.com"
     },
     {
-      "id": "81bc6df0-a7a3-425f-8767-20fe803a23a8",
-      "title": "Task Gamma",
-      "status": "todo",
-      "priority": "medium",
-      "assigned_to": "jamesbond@example.com"
-    },
-    {
-      "id": "699fa02c-059d-4282-99fb-9d9516479c76",
-      "title": "Task Alpha",
-      "status": "todo",
-      "priority": "high",
-      "assigned_to": "jamesbond@example.com"
-    },
-    {
-      "id": "f3c850e9-7986-42c6-9cf6-834549496956",
-      "title": "Task Beta",
-      "status": "todo",
-      "priority": "high",
-      "assigned_to": "jamesbond@example.com"
-    },
-    {
-      "id": "5b8ce080-a49d-4cfb-99c1-6b90f17dcda0",
+      "id": "2b13a5d4-93df-4cd1-95d9-4675b8d4e5de",
       "title": "Task Gamma",
       "status": "todo",
       "priority": "medium",
@@ -157,7 +101,7 @@ Bond token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ...
     }
   ],
   "summary": {
-    "total_assigned_tasks": 6
+    "total_assigned_tasks": 3
   },
   "cache": {
     "hit": true
